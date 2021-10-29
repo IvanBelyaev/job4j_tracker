@@ -25,7 +25,7 @@ public class Item {
     private String name;
     /** The description of the application. */
     @Column(name = "description")
-    private String desctiption;
+    private String description;
     /**  Created date. */
     @Column(name = "create_time")
     @Convert(
@@ -55,24 +55,24 @@ public class Item {
     /**
      * The constructor creates the object Item.
      * @param name - the name of the application.
-     * @param desctiption - the description of the application.
+     * @param description - the description of the application.
      * @param create - created date.
      */
-    public Item(String name, String desctiption, long create) {
+    public Item(String name, String description, long create) {
         this.name = name;
-        this.desctiption = desctiption;
+        this.description = description;
         this.create = create;
     }
 
     /**
      * The constructor creates the object Item.
      * @param name - the name of the application.
-     * @param desctiption - the description of the application.
+     * @param description - the description of the application.
      * @param create - created date.
      * @param author item author.
      */
-    public Item(String name, String desctiption, long create, String author) {
-        this(name, desctiption, create);
+    public Item(String name, String description, long create, String author) {
+        this(name, description, create);
         this.author = author;
     }
 
@@ -88,8 +88,8 @@ public class Item {
      * The method returns the description of the application.
      * @return returns the description of the application.
      */
-    public String getDesctiption() {
-        return this.desctiption;
+    public String getDescription() {
+        return this.description;
     }
 
     /**
@@ -130,10 +130,10 @@ public class Item {
 
     /**
      * The method sets the new description of the application.
-     * @param desctiption - new description of the application.
+     * @param description - new description of the application.
      */
-    public void setDesctiption(String desctiption) {
-        this.desctiption = desctiption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -190,13 +190,13 @@ public class Item {
         return id == item.id
                 && Objects.equals(create, item.create)
                 && Objects.equals(name, item.name)
-                && Objects.equals(desctiption, item.desctiption)
+                && Objects.equals(description, item.description)
                 && Objects.equals(author, item.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, desctiption, create, id, author);
+        return Objects.hash(name, description, create, id, author);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class Item {
         return "Item{"
                 + "commentsCounter=" + commentsCounter
                 + ", name='" + name + '\''
-                + ", desctiption='" + desctiption + '\''
+                + ", description='" + description + '\''
                 + ", create=" + create
                 + ", author=" + author
                 + ", comments=" + Arrays.toString(comments)

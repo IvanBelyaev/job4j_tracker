@@ -1,6 +1,7 @@
 package ru.job4j.tracker.trackers;
 
 import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.reactive.Observe;
 
 import java.util.List;
 
@@ -32,10 +33,10 @@ public interface ITracker {
     void delete(long id);
 
     /**
-     * The method returns all applications.
-     * @return returns an array of all applications.
+     * Method returns all items via observer.
+     * @param observe observer.
      */
-    List<Item> findAll();
+    void findAll(Observe<Item> observe);
 
     /**
      * The method returns all applications with a specific name.

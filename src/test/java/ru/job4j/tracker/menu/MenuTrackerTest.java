@@ -2,7 +2,6 @@ package ru.job4j.tracker.menu;
 
 import org.junit.Test;
 import ru.job4j.tracker.input.Input;
-import ru.job4j.tracker.menu.MenuTracker;
 import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.trackers.ITracker;
 import ru.job4j.tracker.trackers.TrackerInMem;
@@ -13,7 +12,7 @@ import java.io.PrintStream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -90,13 +89,13 @@ public class MenuTrackerTest {
         assertThat(
                 out.toString().split("\n")[0],
                 is(String.format("id: %s, name: %s, description: %s, created date: %d",
-                        item1.getId(), item1.getName(), item1.getDesctiption(), item1.getCreate()
+                        item1.getId(), item1.getName(), item1.getDescription(), item1.getCreate()
                 ))
         );
         assertThat(
                 out.toString().split("\n")[1],
                 is(String.format("id: %s, name: %s, description: %s, created date: %d",
-                        item2.getId(), item2.getName(), item2.getDesctiption(), item2.getCreate()
+                        item2.getId(), item2.getName(), item2.getDescription(), item2.getCreate()
                 ))
         );
     }
@@ -141,7 +140,7 @@ public class MenuTrackerTest {
         assertThat(
                 out.toString().split("\n")[0],
                 is(String.format("id: %s, name: %s, description: %s, created date: %d",
-                        item.getId(), item.getName(), item.getDesctiption(), item.getCreate())
+                        item.getId(), item.getName(), item.getDescription(), item.getCreate())
                 )
         );
     }

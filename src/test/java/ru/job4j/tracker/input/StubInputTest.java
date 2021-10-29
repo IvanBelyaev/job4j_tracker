@@ -2,8 +2,8 @@ package ru.job4j.tracker.input;
 
 import org.junit.Test;
 import ru.job4j.tracker.StartUI;
-import ru.job4j.tracker.input.StubInput;
 import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.trackers.ITracker;
 import ru.job4j.tracker.trackers.TrackerInMem;
 
 import java.io.ByteArrayOutputStream;
@@ -11,6 +11,7 @@ import java.io.PrintStream;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * StubInputTest.
@@ -24,10 +25,17 @@ public class StubInputTest {
      */
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        TrackerInMem tracker = new TrackerInMem();
-        new StartUI(new StubInput(new String[] {"0", "new item", "desc", "6"}), tracker).init();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        ITracker tracker = new TrackerInMem();
+        Item item = new Item("new item", "desc", 1);
+        new StartUI(new StubInput(new String[] {"0", item.getName(), item.getDescription(), "1", "6"}), tracker).init();
 
-        assertThat(tracker.findAll().get(0).getName(), is("new item"));
+        assertTrue(
+                out.toString().split(System.getProperty("line.separator"))[21].contains(
+                        String.format(", name: %s, description: %s, created date: ",
+                                item.getName(), item.getDescription()
+                        )));
     }
 
     /**
@@ -44,7 +52,7 @@ public class StubInputTest {
         assertThat(
                 out.toString().split(System.getProperty("line.separator"))[9],
                 is(String.format("id: %s, name: %s, description: %s, created date: %d",
-                        item.getId(), item.getName(), item.getDesctiption(), item.getCreate()))
+                        item.getId(), item.getName(), item.getDescription(), item.getCreate()))
         );
     }
 
@@ -98,7 +106,7 @@ public class StubInputTest {
         assertThat(
                 out.toString().split(System.getProperty("line.separator"))[10],
                 is(String.format("id: %s, name: %s, description: %s, created date: %d",
-                        item.getId(), item.getName(), item.getDesctiption(), item.getCreate()))
+                        item.getId(), item.getName(), item.getDescription(), item.getCreate()))
         );
     }
 
@@ -167,9 +175,9 @@ public class StubInputTest {
                 is(String.format(
                         "id: %s, name: %s, description: %s, created date: %d%s"
                                 + "id: %s, name: %s, description: %s, created date: %d",
-                        item1.getId(), item1.getName(), item1.getDesctiption(), item1.getCreate(),
+                        item1.getId(), item1.getName(), item1.getDescription(), item1.getCreate(),
                         System.getProperty("line.separator"),
-                        item3.getId(), item3.getName(), item3.getDesctiption(), item3.getCreate())
+                        item3.getId(), item3.getName(), item3.getDescription(), item3.getCreate())
                 )
         );
     }

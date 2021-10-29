@@ -36,9 +36,9 @@ class EditItem extends BaseAction {
             System.out.println("This id does not exist.");
         } else {
             System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                    item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
+                    item.getId(), item.getName(), item.getDescription(), item.getCreate());
             item.setName(input.ask("name: "));
-            item.setDesctiption(input.ask("description: "));
+            item.setDescription(input.ask("description: "));
             tracker.replace(id, item);
         }
     }
@@ -158,11 +158,9 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, ITracker tracker) {
-            List<Item> allItems = tracker.findAll();
-            for (Item item : allItems) {
-                System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                        item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
-            }
+            tracker.findAll(item ->
+                    System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
+                            item.getId(), item.getName(), item.getDescription(), item.getCreate()));
         }
     }
 
@@ -224,7 +222,7 @@ public class MenuTracker {
                 System.out.println("This id does not exist.");
             } else {
                 System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                        item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
+                        item.getId(), item.getName(), item.getDescription(), item.getCreate());
 
                 boolean flag = true;
                 while (flag) {
@@ -300,7 +298,7 @@ public class MenuTracker {
             List<Item> items = tracker.findByName(name);
             for (Item item : items) {
                 System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                        item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
+                        item.getId(), item.getName(), item.getDescription(), item.getCreate());
             }
         }
     }

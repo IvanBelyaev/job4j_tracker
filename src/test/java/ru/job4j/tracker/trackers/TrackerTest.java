@@ -2,7 +2,6 @@ package ru.job4j.tracker.trackers;
 
 import org.junit.Test;
 import ru.job4j.tracker.model.Item;
-import ru.job4j.tracker.trackers.TrackerInMem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,8 @@ public class TrackerTest {
         tracker.add(item1);
         Item item2 = new Item("name2", "desc2", 1234L);
         tracker.add(item2);
-        List<Item> methodReturns = tracker.findAll();
+        List<Item> methodReturns = new ArrayList<>();
+        tracker.findAll(item -> methodReturns.add(item));
 
         ArrayList<Item> expected = new ArrayList<>();
         expected.add(item1);
@@ -62,7 +62,8 @@ public class TrackerTest {
         Item item2 = new Item("name2", "desc2", 1234L);
         tracker.add(item2);
         tracker.delete(item1);
-        List<Item> methodReturns = tracker.findAll();
+        List<Item> methodReturns = new ArrayList<>();
+        tracker.findAll(item -> methodReturns.add(item));
 
         ArrayList<Item> expected = new ArrayList<>();
         expected.add(item2);
@@ -80,7 +81,8 @@ public class TrackerTest {
         tracker.add(item1);
         Item item2 = new Item("name2", "desc2", 1234L);
         tracker.add(item2);
-        List<Item> methodReturns = tracker.findAll();
+        List<Item> methodReturns = new ArrayList<>();
+        tracker.findAll(item -> methodReturns.add(item));
 
         ArrayList<Item> expected = new ArrayList<>();
         expected.add(item1);

@@ -96,11 +96,9 @@ public class StartUI {
      * Method displays all applications.
      */
     private void showAllItem() {
-        List<Item> allItems = this.tracker.findAll();
-        for (Item item : allItems) {
-            System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                    item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
-        }
+        this.tracker.findAll(item ->
+                System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
+                        item.getId(), item.getName(), item.getDescription(), item.getCreate()));
     }
 
     /**
@@ -113,9 +111,9 @@ public class StartUI {
             System.out.println("This id does not exist.");
         } else {
             System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                    item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
+                    item.getId(), item.getName(), item.getDescription(), item.getCreate());
             item.setName(this.input.ask("name: "));
-            item.setDesctiption(this.input.ask("description: "));
+            item.setDescription(this.input.ask("description: "));
         }
     }
 
@@ -145,7 +143,7 @@ public class StartUI {
             System.out.println("This id does not exist.");
         } else {
             System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                    item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
+                    item.getId(), item.getName(), item.getDescription(), item.getCreate());
 
             boolean flag = true;
             while (flag) {
@@ -176,7 +174,7 @@ public class StartUI {
         List<Item> items = this.tracker.findByName(name);
         for (Item item : items) {
             System.out.printf("id: %s, name: %s, description: %s, created date: %d\n",
-                    item.getId(), item.getName(), item.getDesctiption(), item.getCreate());
+                    item.getId(), item.getName(), item.getDescription(), item.getCreate());
         }
     }
 

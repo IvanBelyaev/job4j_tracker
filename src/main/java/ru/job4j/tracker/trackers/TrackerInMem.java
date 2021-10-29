@@ -1,7 +1,7 @@
 package ru.job4j.tracker.trackers;
 
 import ru.job4j.tracker.model.Item;
-import ru.job4j.tracker.trackers.ITracker;
+import ru.job4j.tracker.reactive.Observe;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -82,11 +82,13 @@ public class TrackerInMem implements ITracker {
     }
 
     /**
-     * The method returns all applications.
-     * @return returns an array of all applications.
+     * Method returns all items via observer.
+     * @param observe observer.
      */
-    public List<Item> findAll() {
-        return items;
+    public void findAll(Observe<Item> observe) {
+        for (Item item : items) {
+            observe.receive(item);
+        }
     }
 
     /**

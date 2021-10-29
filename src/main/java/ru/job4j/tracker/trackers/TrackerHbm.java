@@ -8,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.reactive.Observe;
 
 import java.util.List;
 
@@ -54,13 +55,13 @@ public class TrackerHbm implements ITracker, AutoCloseable {
     }
 
     @Override
-    public List<Item> findAll() {
+    public void findAll(Observe<Item> observe) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List<Item> items = session.createQuery("from Item").list();
+        session.createQuery("from Item", Item.class).getResultStream()
+                .forEach(item -> observe.receive(item));
         session.getTransaction().commit();
         session.close();
-        return items;
     }
 
     @Override

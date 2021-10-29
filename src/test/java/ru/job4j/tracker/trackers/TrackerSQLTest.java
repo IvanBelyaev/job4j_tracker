@@ -1,6 +1,5 @@
 package ru.job4j.tracker.trackers;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.tracker.ConnectionRollback;
 import ru.job4j.tracker.model.Item;
@@ -28,34 +27,29 @@ public class TrackerSQLTest {
      * Connection initialization.
      * @return database connection.
      */
-    public static Connection init() {
+    public Connection init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
             config.load(in);
             Class.forName(config.getProperty("driver-class-name"));
-            return DriverManager.getConnection(
+            Connection connection =  DriverManager.getConnection(
                     config.getProperty("url"),
                     config.getProperty("username"),
                     config.getProperty("password")
 
             );
+            try (Statement statement = connection.createStatement()) {
+                String sql = "DROP TABLE IF EXISTS items;" +
+                        "CREATE TABLE IF NOT EXISTS items ("
+                        + "id SERIAL PRIMARY KEY,"
+                        + "name VARCHAR(50) NOT NULL,"
+                        + "description VARCHAR(255) NOT NULL,"
+                        + "create_time TIMESTAMP NOT NULL);";
+                statement.executeUpdate(sql);
+            }
+            return connection;
         } catch (Exception e) {
             throw new IllegalStateException(e);
-        }
-    }
-
-    @BeforeClass
-    public static void createTable() throws SQLException {
-        Connection connection = init();
-        try (Statement statement = connection.createStatement()) {
-            String sql = "CREATE TABLE IF NOT EXISTS items ("
-                    + "id SERIAL PRIMARY KEY,"
-                    + "name VARCHAR(50) NOT NULL,"
-                    + "description VARCHAR(350) NOT NULL,"
-                    + "create_time TIMESTAMP NOT NULL)";
-            statement.executeUpdate(sql);
-            sql = "DELETE FROM items";
-            statement.executeUpdate(sql);
         }
     }
 
@@ -100,7 +94,9 @@ public class TrackerSQLTest {
             Item item2 = new Item("name2", "desc2", 1234L);
             tracker.add(item2);
             tracker.delete(item1.getId());
-            List<Item> methodReturns = tracker.findAll();
+
+            List<Item> methodReturns = new ArrayList<>();
+            tracker.findAll(item -> methodReturns.add(item));
 
             ArrayList<Item> expected = new ArrayList<>();
             expected.add(item2);
@@ -120,7 +116,8 @@ public class TrackerSQLTest {
             tracker.add(item1);
             Item item2 = new Item("name2", "desc2", 1234L);
             tracker.add(item2);
-            List<Item> methodReturns = tracker.findAll();
+            List<Item> methodReturns = new ArrayList<>();
+            tracker.findAll(item -> methodReturns.add(item));
 
             ArrayList<Item> expected = new ArrayList<>();
             expected.add(item1);

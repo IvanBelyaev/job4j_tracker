@@ -3,6 +3,7 @@ package ru.job4j.tracker.trackers;
 import org.junit.Test;
 import ru.job4j.tracker.model.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +23,8 @@ public class TrackerHbmTest {
 
         trackerHbm.add(item);
 
-        List<Item> allItems = trackerHbm.findAll();
+        List<Item> allItems = new ArrayList<>();
+        trackerHbm.findAll(itm -> allItems.add(itm));
         assertEquals(1, allItems.size());
         assertEquals(item, allItems.get(0));
     }
@@ -60,7 +62,8 @@ public class TrackerHbmTest {
 
         trackerHbm.delete(first.getId());
 
-        List<Item> allItems = trackerHbm.findAll();
+        List<Item> allItems = new ArrayList<>();
+        trackerHbm.findAll(item -> allItems.add(item));
         assertEquals(1, allItems.size());
         assertEquals(second, allItems.get(0));
     }
@@ -76,7 +79,8 @@ public class TrackerHbmTest {
         trackerHbm.add(first);
         trackerHbm.add(second);
 
-        List<Item> allItems = trackerHbm.findAll();
+        List<Item> allItems = new ArrayList<>();
+        trackerHbm.findAll(item -> allItems.add(item));
 
         assertEquals(2, allItems.size());
         assertTrue(allItems.contains(first));
